@@ -1,0 +1,24 @@
+  <input type="button" onclick="onClick()">
+  <div id="foo"></div>
+  <script>
+    function onClick() {
+    // feature detect
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    alert("IN");
+      DeviceOrientationEvent.requestPermission()
+        .then(permissionState => {
+          if (permissionState === 'granted') {
+            window.addEventListener('deviceorientation', (e) => {
+              document.getElementById("foo").innerText = "alpha:" + e.alpha + ",gamma:" + e.gamma + ",beta:" + e.beta;
+            });
+          }
+           else {
+            alert("PermissionState: " + permissionState);
+          }
+        })
+        .catch(console.error);
+    } else {
+      // handle regular non iOS 13+ devices
+    }
+  }
+  </script>
